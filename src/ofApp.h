@@ -33,5 +33,7 @@ class ofApp : public ofBaseApp{
     ofVec3f pos[NUM];
     ofVec3f vel[NUM];
     
+    vector<vector<ofVec3f>> triangles;
+    
 		
 };

@@ -88,15 +88,27 @@ void ofApp::draw(){
     ofSetColor(255, 255, 255, 255);
     box.drawWireframe();
     
+    vector<<#class _Tp#>>
+    
     for (int i=0; i<NUM; i++) {
         for (int j=0; j<NUM; j++) {
             if (i != j && distance(mbox[i].getPosition(), mbox[j].getPosition()) < 350 ) {
-                ofDrawLine(mbox[i].getPosition(), mbox[j].getPosition());
-//                ofMesh line = ofMesh();
-//                line.setMode(OF_PRIMITIVE_LINES);
-//                line.addVertex(mbox[i].getPosition());
-//                line.addVertex(mbox[j].getPosition());
-//                line.drawWireframe();
+               // ofDrawLine(mbox[i].getPosition(), mbox[j].getPosition());
+                
+                
+                ofMesh line = ofMesh();
+                line.setMode(OF_PRIMITIVE_LINES);
+                line.addVertex(mbox[i].getPosition());
+                line.addVertex(mbox[j].getPosition());
+                line.drawWireframe();
+                
+                ofMesh surface = ofMesh();
+                surface.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+                surface.addVertex(mbox[i].getPosition());
+                surface.addVertex(mbox[j].getPosition());
+                surface.addVertex(ofVec3f(0, 0, 0));
+                surface.drawFaces();
+                
                 
             }
             
