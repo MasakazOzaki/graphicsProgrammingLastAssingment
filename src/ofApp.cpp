@@ -58,6 +58,26 @@ void ofApp::update(){
         mbox[i].setPosition(pos[i].x, pos[i].y, pos[i].z);
         
     }
+    
+    int eliminates[NUM] = {};
+    triangles.clear();
+    for (int i=0; i<NUM; i++) {
+        vector<ofVec3f> positions;
+        for (int j=0; j<NUM; j++) {
+            if (eliminates[i] == 0 && eliminates[j] == 0 && i != j && distance(mbox[i].getPosition(), mbox[j].getPosition()) < 350 ) {
+                positions.push_back(mbox[j].getPosition());
+                eliminates[j] = 1;
+            }
+            
+        }
+        if(positions.size() != 0)
+        {
+            positions.push_back(mbox[i].getPosition());
+            triangles.push_back(positions);
+        }
+        eliminates[i] = 1;
+        
+    }
 
     
 
@@ -88,27 +108,30 @@ void ofApp::draw(){
     ofSetColor(255, 255, 255, 255);
     box.drawWireframe();
     
-    vector<<#class _Tp#>>
+    
+    for(int i = 0; i < triangles.size(); i++)
+    {
+        
+        ofMesh surface = ofMesh();
+        surface.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+        for(int j = 0; j < triangles[i].size(); j++)
+        {
+            surface.addVertex(triangles[i][j]);
+        }
+
+        surface.drawFaces();
+
+    }
     
     for (int i=0; i<NUM; i++) {
         for (int j=0; j<NUM; j++) {
             if (i != j && distance(mbox[i].getPosition(), mbox[j].getPosition()) < 350 ) {
-               // ofDrawLine(mbox[i].getPosition(), mbox[j].getPosition());
-                
                 
                 ofMesh line = ofMesh();
                 line.setMode(OF_PRIMITIVE_LINES);
                 line.addVertex(mbox[i].getPosition());
                 line.addVertex(mbox[j].getPosition());
                 line.drawWireframe();
-                
-                ofMesh surface = ofMesh();
-                surface.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
-                surface.addVertex(mbox[i].getPosition());
-                surface.addVertex(mbox[j].getPosition());
-                surface.addVertex(ofVec3f(0, 0, 0));
-                surface.drawFaces();
-                
                 
             }
             
